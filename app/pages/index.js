@@ -1,22 +1,77 @@
-import React from 'react'
-import Link from 'next/link'
+import React from 'react';
+// nodejs library that concatenates classes
+import classNames from 'classnames';
+// @material-ui/core components
+import { makeStyles } from '@material-ui/core/styles';
 
-export default () => (
-  <ul>
-    <li>
-      <Link href="/b" as="/a">
-        <a>a</a>
-      </Link>
-    </li>
-    <li>
-      <Link href="/a" as="/b">
-        <a>b</a>
-      </Link>
-    </li>
-    <li>
-      <Link href={{ pathname: '/posts', query: { id: '2' } }} as="/posts/2">
-        <a>post #2</a>
-      </Link>
-    </li>
-  </ul>
-)
+// @material-ui/icons
+
+// core components
+import Header from 'components/Header/Header.js';
+import Footer from 'components/Footer/Footer.js';
+import GridContainer from 'components/Grid/GridContainer.js';
+import GridItem from 'components/Grid/GridItem.js';
+import Button from 'components/CustomButtons/Button.js';
+import HeaderLinks from 'components/Header/HeaderLinks.js';
+import Parallax from 'components/Parallax/Parallax.js';
+
+import styles from 'assets/jss/nextjs-material-kit/pages/landingPage.js';
+
+// Sections for this page
+import ProductSection from 'pages-sections/LandingPage-Sections/ProductSection.js';
+import TeamSection from 'pages-sections/LandingPage-Sections/TeamSection.js';
+import WorkSection from 'pages-sections/LandingPage-Sections/WorkSection.js';
+
+const dashboardRoutes = [];
+
+const useStyles = makeStyles(styles);
+
+export default function LandingPage(props) {
+	const classes = useStyles();
+	const { ...rest } = props;
+	return (
+		<div>
+			<Header
+				color='transparent'
+				routes={dashboardRoutes}
+				brand='Ashleigh Sayers'
+				rightLinks={<HeaderLinks/>}
+				fixed
+				changeColorOnScroll={{
+					height: 400,
+					color: 'white'
+				}}
+				{...rest}
+			/>
+			<Parallax filter responsive image={require('assets/img/landing-bg.jpg')}>
+				<div className={classes.container}>
+					<GridContainer>
+						<GridItem xs={12} sm={12} md={6}>
+							<h1 className={classes.title}>The Awesome Designer</h1>
+							<h4>Some Text over here will be great that will worship the all might web designer Ashleigh</h4>
+							<br />
+							<Button
+								color='danger'
+								size='lg'
+								href='https://www.youtube.com/watch?v=dQw4w9WgXcQ&ref=creativetim'
+								target='_blank'
+								rel='noopener noreferrer'
+							>
+								<i className='fas fa-play' />
+								Watch video
+							</Button>
+						</GridItem>
+					</GridContainer>
+				</div>
+			</Parallax>
+			<div className={classNames(classes.main, classes.mainRaised)}>
+				<div className={classes.container}>
+					<ProductSection />
+					<TeamSection />
+					<WorkSection />
+				</div>
+			</div>
+			<Footer />
+		</div>
+	);
+}

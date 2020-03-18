@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // @material-ui/icons
 
 // core components
+import Head from 'next/head';
 import Header from 'components/Header/Header.js';
 import Footer from 'components/Footer/Footer.js';
 import GridContainer from 'components/Grid/GridContainer.js';
@@ -21,6 +22,7 @@ import styles from 'assets/jss/nextjs-material-kit/pages/landingPage.js';
 import ProductSection from 'pages-sections/LandingPage-Sections/ProductSection.js';
 import TeamSection from 'pages-sections/LandingPage-Sections/TeamSection.js';
 import WorkSection from 'pages-sections/LandingPage-Sections/WorkSection.js';
+import Logs from './../components/custom/Logs';
 
 const dashboardRoutes = [];
 
@@ -31,11 +33,14 @@ export default function LandingPage(props) {
 	const { ...rest } = props;
 	return (
 		<div>
+			<Head>
+				<title>Electronic Card Logger</title>
+			</Head>
 			<Header
 				color='transparent'
 				routes={dashboardRoutes}
-				brand='Ashleigh Sayers'
-				rightLinks={<HeaderLinks/>}
+				brand='Frinze Lapuz'
+				rightLinks={<HeaderLinks />}
 				fixed
 				changeColorOnScroll={{
 					height: 400,
@@ -47,10 +52,10 @@ export default function LandingPage(props) {
 				<div className={classes.container}>
 					<GridContainer>
 						<GridItem xs={12} sm={12} md={6}>
-							<h1 className={classes.title}>The Awesome Designer</h1>
-							<h4>Some Text over here will be great that will worship the all might web designer Ashleigh</h4>
+							<h1 className={classes.title}>Electronic Card Logger</h1>
+							<h4>Internet of Things (IoT) project that involves using an POST request of digital embedded system into a web server</h4>
 							<br />
-							<Button
+							{/* <Button
 								color='danger'
 								size='lg'
 								href='https://www.youtube.com/watch?v=dQw4w9WgXcQ&ref=creativetim'
@@ -59,16 +64,41 @@ export default function LandingPage(props) {
 							>
 								<i className='fas fa-play' />
 								Watch video
-							</Button>
+							</Button> */}
 						</GridItem>
 					</GridContainer>
 				</div>
 			</Parallax>
 			<div className={classNames(classes.main, classes.mainRaised)}>
 				<div className={classes.container}>
-					<ProductSection />
-					<TeamSection />
-					<WorkSection />
+					<Logs
+						logs={[
+							{
+								_id: '5e71ebf8aa4f63b7a675bf27',
+								deviceName: 'postman',
+								type: 'checker',
+								datetime: '2020-03-18T09:38:00.834Z',
+								updatedAt: '2020-03-18T09:38:00.834Z',
+								__v: 0
+							},
+							{
+								_id: '5e71ed499d1a41ace26222a9',
+								deviceName: 'postman',
+								type: 'checker',
+								datetime: '2020-03-18T09:43:37.298Z',
+								updatedAt: '2020-03-18T09:43:37.298Z',
+								__v: 0
+							},
+							{
+								_id: '5e71f759e8cc535600278433',
+								deviceName: 'postman',
+								type: 'checker',
+								datetime: '2020-03-18T10:26:33.454Z',
+								updatedAt: '2020-03-18T10:26:33.454Z',
+								__v: 0
+							}
+						]}
+					></Logs>
 				</div>
 			</div>
 			<Footer />

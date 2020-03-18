@@ -10,6 +10,9 @@ module.exports = withPlugins([[withSass], [withImages]], {
 		return config;
 	},
 	env: {
-		PORT: 3001
+		PORT: 3001,
+		mongoURI: 'mongodb+srv://frinzelapuz:Winlin123@flapuz-9bwfa.azure.mongodb.net/test?retryWrites=true&w=majority',
+		mongoDBName: 'IOT',
+		mongoCollectionName: 'ECL_Logs'
 	}
 });

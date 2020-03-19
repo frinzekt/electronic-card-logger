@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -12,8 +12,32 @@ import styles from 'assets/jss/nextjs-material-kit/pages/landingPageSections/pro
 
 const useStyles = makeStyles(styles);
 
-const Logs = ({ logs }) => {
+const Logs = () => {
 	const classes = useStyles();
+	const [logs, setLogs] = useState([
+		{
+			_id: '5e71ebf8aa4f63b7a675bf27',
+			deviceName: 'postman',
+			type: 'checker',
+			datetime: '2020-03-18T09:38:00.834Z',
+			updatedAt: '2020-03-18T09:38:00.834Z',
+			__v: 0
+		}
+	]);
+	useEffect(() => {
+		async function fetchData() {
+			let response = await fetch('http://localhost:3001/api/log');
+			response = await response.json();
+			return response.data;
+		}
+		setInterval(() => {
+			fetchData().then(data => {
+				if (JSON.stringify(logs) !== JSON.stringify(data)) {
+					setLogs(data);
+				}
+			});
+		}, 3000);
+	}, []);
 	return (
 		<div className={classes.section}>
 			<GridContainer justify='center'>

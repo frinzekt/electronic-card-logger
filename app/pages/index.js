@@ -70,36 +70,7 @@ export default function LandingPage(props) {
 				</div>
 			</Parallax>
 			<div className={classNames(classes.main, classes.mainRaised)}>
-				<div className={classes.container}>
-					<Logs
-						logs={[
-							{
-								_id: '5e71ebf8aa4f63b7a675bf27',
-								deviceName: 'postman',
-								type: 'checker',
-								datetime: '2020-03-18T09:38:00.834Z',
-								updatedAt: '2020-03-18T09:38:00.834Z',
-								__v: 0
-							},
-							{
-								_id: '5e71ed499d1a41ace26222a9',
-								deviceName: 'postman',
-								type: 'checker',
-								datetime: '2020-03-18T09:43:37.298Z',
-								updatedAt: '2020-03-18T09:43:37.298Z',
-								__v: 0
-							},
-							{
-								_id: '5e71f759e8cc535600278433',
-								deviceName: 'postman',
-								type: 'checker',
-								datetime: '2020-03-18T10:26:33.454Z',
-								updatedAt: '2020-03-18T10:26:33.454Z',
-								__v: 0
-							}
-						]}
-					></Logs>
-				</div>
+				<div className={classes.container}><Logs></Logs></div>
 			</div>
 			<Footer />
 		</div>

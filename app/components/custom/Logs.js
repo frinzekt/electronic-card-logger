@@ -28,7 +28,6 @@ const Logs = () => {
 
 			// Continous Running
 			const loop = () => {
-				console.log('FETI');
 				fetchData().then(data => {
 					if (JSON.stringify(logs) !== JSON.stringify(data)) {
 						setLogs(data);

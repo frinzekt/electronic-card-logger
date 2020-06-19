@@ -54,7 +54,8 @@ export default function LandingPage(props) {
 	if (origin) {
 		useEffect(() => {
 			const socketURL = process.env.socketURL;
-			const socket = io(`${socketURL}`);
+			const socket = io.connect();
+			console.log('Connecting to ', socketURL);
 			socket.on('message', handleSocketMessage);
 			socket.emit('firstConnect', {});
 			setSocket(socket);

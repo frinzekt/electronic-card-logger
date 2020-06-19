@@ -42,7 +42,6 @@ app.prepare().then(() => {
 	io.on('connection', (socket) => {
 		socket.on('message', (data) => {
 			socket.broadcast.emit('message', data);
-			console.log('Message Sent', data);
 		});
 		socket.on('firstConnect', (data) => {
 			console.log('Client has connected');

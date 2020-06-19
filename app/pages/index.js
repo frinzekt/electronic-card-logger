@@ -38,7 +38,7 @@ export default function LandingPage(props) {
 	const { ...rest } = props;
 
 	const [logs, setLogs] = useState(props.logs);
-	const [notificationOpen, setNotificationOpen] = useState(true);
+	const [notificationOpen, setNotificationOpen] = useState(false);
 
 	const handleClose = (event, reason) => {
 		if (reason === 'clickaway') {

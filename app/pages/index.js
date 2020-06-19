@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch'; //FETCH WORKS FOR BOTH CLIENT AND SERVER
 import io from 'socket.io-client';
-import dynamic from 'next/dynamic';
 
 // nodejs library that concatenates classes
 import classNames from 'classnames';
 
 // @material-ui/core components
 import Snackbar from '@material-ui/core/Snackbar';
-const MuiAlert = dynamic(() => import('@material-ui/lab/Alert'));
+import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 
 // @material-ui/icons
@@ -63,8 +62,8 @@ export default function LandingPage(props) {
 	}
 
 	const handleSocketMessage = (message) => {
-		console.log(message);
 		const newLogs = [...logs, message];
+		setNotificationOpen(true);
 		setLogs(newLogs);
 	};
 	return (
@@ -72,7 +71,12 @@ export default function LandingPage(props) {
 			<Head>
 				<title>Electronic Card Logger</title>
 			</Head>
-			<Snackbar open={notificationOpen} autoHideDuration={6000} onClose={handleClose}>
+			<Snackbar
+				open={notificationOpen}
+				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+				autoHideDuration={5000}
+				onClose={handleClose}
+			>
 				<Alert onClose={handleClose} severity='success'>
 					New Data Arrived
 				</Alert>

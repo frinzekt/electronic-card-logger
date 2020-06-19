@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch'; //FETCH WORKS FOR BOTH CLIENT AND SERVER
 import io from 'socket.io-client';
+import absoluteUrl from 'next-absolute-url';
 
 // nodejs library that concatenates classes
 import classNames from 'classnames';
@@ -53,8 +54,7 @@ export default function LandingPage(props) {
 	const origin = typeof window !== 'undefined' ? window.location.origin : false;
 	if (origin) {
 		useEffect(() => {
-			const socketURL = process.env.socketURL;
-			const socket = io.connect();
+			const socket = io.connect(origin);
 			console.log('Connecting to ', socketURL);
 			socket.on('message', handleSocketMessage);
 			socket.emit('firstConnect', {});
@@ -125,8 +125,8 @@ export default function LandingPage(props) {
 	);
 }
 
-LandingPage.getInitialProps = async () => {
-	const origin = process.env.origin;
+LandingPage.getInitialProps = async ({ req, res }) => {
+	const { origin } = absoluteUrl(req);
 	const res = await fetch(`${origin}/api/log`);
 	const json = await res.json();
 	return { logs: json.data };

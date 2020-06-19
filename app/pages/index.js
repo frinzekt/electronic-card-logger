@@ -125,7 +125,7 @@ export default function LandingPage(props) {
 	);
 }
 
-LandingPage.getInitialProps = async ({ req, res }) => {
+LandingPage.getInitialProps = async ({ req }) => {
 	const { origin } = absoluteUrl(req);
 	const res = await fetch(`${origin}/api/log`);
 	const json = await res.json();

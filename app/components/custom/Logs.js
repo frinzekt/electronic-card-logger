@@ -13,15 +13,13 @@ import Log from './Log';
 import styles from 'assets/jss/nextjs-material-kit/pages/landingPageSections/productStyle.js';
 const useStyles = makeStyles(styles);
 
-const Alert = props => {
+const Alert = (props) => {
 	return <MuiAlert elevation={6} variant='filled' {...props} />;
 };
 
-const Logs = () => {
+const Logs = ({ logs }) => {
 	const classes = useStyles();
 
-	const [open, setOpen] = useState(false);
-	const [logs, setLogs] = useState([]);
 
 	// HANDLE DATA UPDATE NOTIFICATION
 
@@ -32,27 +30,6 @@ const Logs = () => {
 		setOpen(false);
 	};
 
-	// DATA RENDERING
-	const origin = typeof window !== 'undefined' ? window.location.origin : false;
-	if (origin) {
-		useEffect(() => {
-			async function fetchData() {
-				let response = await fetch(`${origin}/api/log`);
-				response = await response.json();
-				return response.data;
-			}
-			const timer = setTimeout(() => {
-				fetchData().then(data => {
-					if (JSON.stringify(logs) !== JSON.stringify(data)) {
-						setLogs(data);
-					}
-				});
-			}, 3000);
-			return () => {
-				clearTimeout(timer);
-			};
-		}, [logs]);
-	}
 	return (
 		<div className={classes.section}>
 			{' '}
@@ -65,7 +42,7 @@ const Logs = () => {
 				<GridItem xs={12} sm={12} md={8}>
 					<h2 className={classes.title}> RFID Logs </h2>{' '}
 				</GridItem>{' '}
-				{logs.map(log => (
+				{logs.map((log) => (
 					<GridItem xs={12} sm={12} md={8} key={log._id}>
 						<Log {...log} key={log._id}>
 							{' '}

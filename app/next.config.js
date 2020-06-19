@@ -1,20 +1,24 @@
 const withPlugins = require('next-compose-plugins');
 const withImages = require('next-images');
 const withSass = require('@zeit/next-sass');
+const Dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
 const path = require('path');
 
 module.exports = withPlugins([[withSass], [withImages]], {
-	webpack(config, options) {
+	webpack: (config) => {
+		config.plugins = config.plugins || [];
 		config.resolve.modules.push(path.resolve('./'));
+		config.plugins = [
+			...config.plugins,
+
+			// Read the .env file
+			new Dotenv({
+				path: path.join(__dirname, '.env'),
+				systemvars: true,
+			}),
+		];
+
 		return config;
-	},
-	env: {
-		PORT: 3001,
-		origin: 'http://localhost:3000',
-		socketURL: 'http://localhost:8000',
-		mongoURI: 'mongodb+srv://frinzelapuz:Winlin123@flapuz-9bwfa.azure.mongodb.net/test?retryWrites=true&w=majority',
-		mongoDBName: 'IOT',
-		mongoCollectionName: 'ECL_Logs',
 	},
 });

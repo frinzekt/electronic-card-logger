@@ -11,8 +11,10 @@ module.exports = withPlugins([[withSass], [withImages]], {
 	},
 	env: {
 		PORT: 3001,
+		origin: 'http://localhost:3000',
+		socketURL: 'http://localhost:8000',
 		mongoURI: 'mongodb+srv://frinzelapuz:Winlin123@flapuz-9bwfa.azure.mongodb.net/test?retryWrites=true&w=majority',
 		mongoDBName: 'IOT',
-		mongoCollectionName: 'ECL_Logs'
-	}
+		mongoCollectionName: 'ECL_Logs',
+	},
 });

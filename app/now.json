@@ -2,6 +2,9 @@
     "version": 2,
     "alias": "electronic-card-logger.now.sh",
     "builds": [{
+        "src": "package.json",
+        "use": "@now/static-build"
+    }, {
         "src": "server.js",
         "use": "@now/node-server"
     }],

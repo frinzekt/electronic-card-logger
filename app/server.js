@@ -12,6 +12,7 @@ io.on('connection', (socket) => {
 		console.log('Client has connected');
 	});
 });
+app.get('/', (req, res) => res.send('Socket Server is Online'));
 
 server.listen(8000, (err) => {
 	if (err) throw err;

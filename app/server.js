@@ -37,7 +37,7 @@ app.prepare().then(() => {
 		console.log(`> Ready on http://localhost:${port}`);
 	});
 
-	const io = require('socket.io')(server);
+	const io = require('socket.io').listen(server);
 	// socket.io server
 	io.on('connection', (socket) => {
 		socket.on('message', (data) => {

@@ -42,7 +42,7 @@ const Log = (props) => {
 						<strong>Additional Data</strong>
 					</p>
 					{Object.entries(rest).map(([key, value]) => (
-						<p>{`${key}:${value}`}</p>
+						<p key={key}>{`${key}:${value}`}</p>
 					))}
 				</CardBody>
 			</Card>

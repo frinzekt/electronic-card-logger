@@ -4,11 +4,11 @@ const logSchema = mongoose.Schema(
 	{
 		deviceName: {
 			type: String,
-			required: true
+			required: true,
 		},
 		type: {
-			type: String
-		}
+			type: String,
+		},
 	},
 	{ collection: 'ECL_logs', timestamps: { createdAt: 'datetime' } }
 );

@@ -11,17 +11,23 @@ import { cardTitle } from 'assets/jss/nextjs-material-kit.js';
 const styles = {
 	cardTitle,
 	textCenter: {
-		textAlign: 'center'
+		textAlign: 'center',
 	},
 	textRight: {
-		textAlign: 'right'
-	}
+		textAlign: 'right',
+	},
 };
 
 const useStyles = makeStyles(styles);
 
-const Log = ({ _id, deviceName, type, datetime }) => {
+const Log = (props) => {
 	const classes = useStyles();
+
+	const { _id, deviceName, type, datetime, ...rest } = props;
+	delete rest.children;
+	delete rest.updatedAt;
+	delete rest.__v;
+
 	const date = new Date(datetime);
 	return (
 		<div style={{ margin: 0 }}>
@@ -31,6 +37,13 @@ const Log = ({ _id, deviceName, type, datetime }) => {
 					<p>_id:{_id}</p>
 					<p>Type:{type}</p>
 					<p>Date:{date.toString()}</p>
+					<br />
+					<p>
+						<strong>Additional Data</strong>
+					</p>
+					{Object.entries(rest).map(([key, value]) => (
+						<p>{`${key}:${value}`}</p>
+					))}
 				</CardBody>
 			</Card>
 		</div>

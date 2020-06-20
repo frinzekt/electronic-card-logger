@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import fetch from 'isomorphic-unfetch'; //FETCH WORKS FOR BOTH CLIENT AND SERVER
+import io from 'socket.io-client';
+import absoluteUrl from 'next-absolute-url';
+
 // nodejs library that concatenates classes
 import classNames from 'classnames';
+
 // @material-ui/core components
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 
 // @material-ui/icons
@@ -19,23 +26,63 @@ import Parallax from 'components/Parallax/Parallax.js';
 import styles from 'assets/jss/nextjs-material-kit/pages/landingPage.js';
 
 // Sections for this page
-import ProductSection from 'pages-sections/LandingPage-Sections/ProductSection.js';
-import TeamSection from 'pages-sections/LandingPage-Sections/TeamSection.js';
-import WorkSection from 'pages-sections/LandingPage-Sections/WorkSection.js';
 import Logs from './../components/custom/Logs';
 
 const dashboardRoutes = [];
 
 const useStyles = makeStyles(styles);
 
+const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
+
 export default function LandingPage(props) {
 	const classes = useStyles();
 	const { ...rest } = props;
+
+	const [logs, setLogs] = useState(props.logs);
+	const [notificationOpen, setNotificationOpen] = useState(false);
+
+	const handleClose = (event, reason) => {
+		if (reason === 'clickaway') {
+			return;
+		}
+
+		setNotificationOpen(false);
+	};
+
+	//SOCKET RECEIVER COMMUNICATION - Only Available in CSR
+	const [socket, setSocket] = useState();
+	const origin = typeof window !== 'undefined' ? window.location.origin : false;
+	if (origin) {
+		useEffect(() => {
+			const socketURL = process.env.socketURL;
+			console.log(socketURL);
+			const socket = io.connect(socketURL);
+			socket.on('message', handleSocketMessage);
+			socket.emit('firstConnect', {});
+			setSocket(socket);
+		}, []);
+	}
+
+	const handleSocketMessage = (message) => {
+		const newLogs = [...logs, message];
+		setNotificationOpen(true);
+		setLogs(newLogs);
+	};
 	return (
 		<div>
 			<Head>
 				<title>Electronic Card Logger</title>
 			</Head>
+			<Snackbar
+				open={notificationOpen}
+				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+				autoHideDuration={5000}
+				onClose={handleClose}
+			>
+				<Alert onClose={handleClose} severity='success'>
+					New Data Arrived
+				</Alert>
+			</Snackbar>
 			<Header
 				color='transparent'
 				routes={dashboardRoutes}
@@ -44,7 +91,7 @@ export default function LandingPage(props) {
 				fixed
 				changeColorOnScroll={{
 					height: 400,
-					color: 'white'
+					color: 'white',
 				}}
 				{...rest}
 			/>
@@ -70,9 +117,18 @@ export default function LandingPage(props) {
 				</div>
 			</Parallax>
 			<div className={classNames(classes.main, classes.mainRaised)}>
-				<div className={classes.container}><Logs></Logs></div>
+				<div className={classes.container}>
+					<Logs logs={logs}></Logs>
+				</div>
 			</div>
 			<Footer />
 		</div>
 	);
 }
+
+LandingPage.getInitialProps = async ({ req }) => {
+	const { origin } = absoluteUrl(req);
+	const res = await fetch(`${origin}/api/log`);
+	const json = await res.json();
+	return { logs: json.data };
+};

@@ -21,4 +21,12 @@ module.exports = withPlugins([[withSass], [withImages]], {
 
 		return config;
 	},
+	env: process.env.NODE_ENV !== 'development' && {
+		PORT: process.env.PORT,
+		origin: process.env.origin,
+		socketURL: process.env.socketURL,
+		mongoURI: process.env.mongoURI,
+		mongoDBName: process.env.mongoDBName,
+		mongoCollectionName: process.env.mongoCollectionName,
+	},
 });

@@ -2,7 +2,9 @@
 	"name": "custom-server-express",
 	"version": "1.0.0",
 	"scripts": {
-		"dev": "node server.js",
+		"devExpress": "nodemon server.js",
+		"dev": "next dev",
+		"startNext": "next start",
 		"build": "next build",
 		"start": "cross-env NODE_ENV=production node server.js"
 	},

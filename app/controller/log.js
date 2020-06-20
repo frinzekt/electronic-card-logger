@@ -21,7 +21,7 @@ export const addLog = (payload) => {
 export const getLogs = (identifier, limit) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const data = await Log.find(identifier).sort('-datetime').limit(limit).exec();
+			const data = await Log.find(identifier).sort({ datetime: -1 }).limit(limit).exec();
 			resolve(data);
 		} catch (err) {
 			reject(err);

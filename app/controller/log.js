@@ -1,35 +1,34 @@
 import Log from '../models/log';
 
-const addLog = (payload) => {
-	return new Promise((resolve, reject) => {
+export const addLog = (payload) => {
+	return new Promise(async (resolve, reject) => {
 		let log = {};
 		try {
 			log = new Log(payload, false);
 		} catch (error) {
 			reject(error);
 		}
-		console.log(log);
 
-		log.save((err, result) => {
-			if (err) {
-				reject(err);
-			} else {
-				resolve(result);
-			}
-		});
+		try {
+			const result = await log.save();
+			resolve(result);
+		} catch (err) {
+			reject(err);
+		}
 	});
 };
 
-const getLogs = (identifier) => {
-	return new Promise((resolve, reject) => {
-		Log.find(identifier, (err, result) => {
-			if (err) {
-				reject(err);
-			} else {
-				resolve(result);
-			}
-		});
+export const getLogs = (identifier, limit) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const data = await Log.find(identifier).sort({ datetime: -1 }).limit(limit).exec();
+			resolve(data);
+		} catch (err) {
+			reject(err);
+		}
 	});
 };
 
-module.exports = { addLog, getLogs };
+export const getDHTData = () => {
+	return getLogs({ deviceName: 'DHT Sensor', type: 'sensor' }, 1000);
+};

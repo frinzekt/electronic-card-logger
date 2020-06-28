@@ -30,5 +30,5 @@ export const getLogs = (identifier, limit) => {
 };
 
 export const getDHTData = () => {
-	return getLogs({ deviceName: 'DHT Sensor', type: 'sensor' }, 1000);
+	return getLogs({ deviceName: 'DHT Sensor', type: 'sensor' }, 5000);
 };
